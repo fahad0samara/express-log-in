@@ -16,9 +16,14 @@ res.send(data)
 })
 router.post('/', async (req, res ,next) => {
     try{
+        // here to handle the bcrypt and to show the password in 424s542#$#$53
         const data= await bcrypt.hash(req.body.password,10)
         const data1=new mongoose({username:req.body.username,password:data})
         const result= await data1.save()
+        if(!result){
+            return res.status(400).send('invalid password')    
+        }
+        
         res.send(result)
     }catch(err) {
         next(err)

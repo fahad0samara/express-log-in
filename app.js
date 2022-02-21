@@ -3,6 +3,8 @@ const app = express();
 const path = require('path');
 const user=require('./router/user')
 const singin=require('./router/singin')
+var cors = require('cors')
+app.use(cors())
 
 app.set('port', process.env.port || 1010) 
 
