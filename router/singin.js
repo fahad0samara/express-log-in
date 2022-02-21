@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const mongoose= require('../mongo')
+    const jwt=require('jsonwebtoken')
 
 
 
@@ -28,7 +29,8 @@ router.post('/',async (req,res,next)=> {
          if(!data1){
              return res.status(400).send('invalid password')    
          }
-            res.send('ok')   
+         const token= jwt.sign({_id:data._id},'JSON')
+            res.send(token)   
          
     }
     catch(err){
