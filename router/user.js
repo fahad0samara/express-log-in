@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose= require('../mongo')
 const bcrypt = require('bcrypt');
 
+const logger=require('./winston')
 router.get('/', async (req, res ,next) => {
 try{
    
@@ -11,6 +12,7 @@ res.send(data)
 
 }catch(err) {
     next(err)
+    l
 }
 
 })
@@ -35,6 +37,7 @@ router.post('/', async (req, res ,next) => {
             res.send(data)
         }catch(err){
 next(err)
+logger.error(err)
         }
     })
     router.delete('/:id', async (req, res,next) => {
@@ -43,6 +46,7 @@ const data= await mongoose.findByIdAndDelete(req.params.id)
 res.send(data)
         }catch(err){
             next(err)
+            logger.error(err)
         }
     })
   
