@@ -3,7 +3,7 @@ const router = express.Router();
 const mongoose= require('../mongo')
 const bcrypt = require('bcrypt');
 
-const logger=require('./winston')
+const logger=require('../winston')
 router.get('/', async (req, res ,next) => {
 try{
    
@@ -16,6 +16,29 @@ res.send(data)
 }
 
 })
+
+
+
+router.get('/', (req, res, next) => {
+    let token = req.headers.token; //token
+    jwt.verify(token, 'JSON', (err, decoded) => {
+      if (err) return res.status(401).json({
+        title: 'unauthorized'
+      })
+      //token is valid
+      User.findOne({ _id: decoded.userId }, (err, user) => {
+        if (err) return console.log(err)
+        return res.status(200).json({
+          title: 'user grabbed',
+          user: {
+            email: user.email,
+            name: user.name
+          }
+        })
+      })
+  
+    })
+  })
 router.post('/', async (req, res ,next) => {
     try{
         // here to handle the bcrypt and to show the password in 424s542#$#$53
